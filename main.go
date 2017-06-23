@@ -676,7 +676,7 @@ func deviceRegisterHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // >>>>========================================================>>>>
-var ResultMessage string = "シングル送信の場合、結果がここに表示されます"
+var ResultMessage string = "シングル送信の場合、結果がここに表示されます。"
 
 func commandHandler1(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("run commandHandler1")
