@@ -767,7 +767,7 @@ func deviceShow2(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func sendCommand(w http.ResponseWriter, r *http.Request, tokens []string, command string, bool oneshot) (resp *http.Response, err error) {
+func sendCommand(w http.ResponseWriter, r *http.Request, tokens []string, command string, oneshot bool) (resp *http.Response, err error) {
 	fmt.Println("run sendCommand")
 	jsonStr := ""
 

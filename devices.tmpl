@@ -5,32 +5,32 @@
 <body>
     <h1>Registered Devices</h1>
     <table border="1" bordercolor=#9999FF cellspacing="0" style="table-layout:fixed;width:100%;">
-        <colgroup>
-            <col style="width:55%;">
-            <col style="width:15%;">
-            <col style="width:15%;">
-            <col style="width:15%;">
-            <col style="width:15%;">
-        </colgroup>
+	    <colgroup>
+	        <col style="width:55%;">
+	        <col style="width:15%;">
+	        <col style="width:15%;">
+	        <col style="width:15%;">
+	        <col style="width:15%;">
+	    </colgroup>
         <tbody>
-            <tr bgcolor=#CCCCFF>
-                <th>ID</th>
-                <th>OS</th>
-                <th>VERSION</th>
-                <th>BOARD</th>
-                <th>TIME</th>
-            </tr>
-            {{range $key, $v := .}}
-                {{if $v}}
-                    <tr>
-                        <td style="word-wrap:break-word;">{{$key}}</td>
-                        <td style="word-wrap:break-word;">{{$v.Info.Os}}</td>
-                        <td style="word-wrap:break-word;">{{$v.Info.OsVersion}}</td>
-                        <td style="word-wrap:break-word;">{{$v.Info.Board}}</td>
-                        <td style="word-wrap:break-word;">{{$v.Times}}</td>
-                    </tr>
-                {{end}}
-            {{end}}
+	        <tr bgcolor=#CCCCFF>
+	            <th>ID</th>
+	            <th>OS</th>
+	            <th>VERSION</th>
+	            <th>BOARD</th>
+	            <th>TIME</th>
+	        </tr>
+	        {{range $key, $v := .}}
+	            {{if $v}}
+	                <tr>
+	                    <td style="word-wrap:break-word;">{{$key}}</td>
+	                    <td style="word-wrap:break-word;">{{$v.Info.Os}}</td>
+	                    <td style="word-wrap:break-word;">{{$v.Info.OsVersion}}</td>
+	                    <td style="word-wrap:break-word;">{{$v.Info.Board}}</td>
+	                    <td style="word-wrap:break-word;">{{$v.Times}}</td>
+	                </tr>
+	            {{end}}
+	        {{end}}
         <tbody>
     </table>
 </body>
