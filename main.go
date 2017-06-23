@@ -674,7 +674,7 @@ func deviceRegisterHandler(w http.ResponseWriter, r *http.Request) {
 		deviceShow(w, r)
 	}
 }
-
+d
 // >>>>========================================================>>>>
 var ResultMessage string = "シングル送信の場合、結果がここに表示されます。"
 
