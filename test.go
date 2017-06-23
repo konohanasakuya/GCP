@@ -15,7 +15,7 @@ var (
 	Data6 = "データ６"
 	Data7 = "データ７"
 	Data8 = "データ８"
-	Data9 = "データ９"
+	Data9 = "データ９9"
 )
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
