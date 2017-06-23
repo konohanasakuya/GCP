@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>upload</title>
+</head>
+<body>
+<div class="container">
+    <h1>FILE UPLOAD</h1>
+    <form action="save" method="post" enctype="multipart/form-data">
+        <fieldset>
+            TOKEN : <input type="text" name="token" size="40"><br />
+            REASON: <input type="text" name="reason" size="40"><br />
+            FILE  : <input type="file" name="file" size="40" id="upload_files" multiple="multiple"><br />
+            <input type="submit" name="submit" value="送信">
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

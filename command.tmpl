@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>コマンド実行要求</title>
+</head>
+<body>
+<h1>コマンド実行要求</h1>
+<hr>
+<form method="POST">
+<table>
+<tr>
+ <td>送信先トークン</td>
+ <td><input type=text required name="token"></td>
+</tr>
+<tr>
+ <td>　要求コマンド</td>
+ <td><input type=text required name="command"></td>
+</tr>
+<tr>
+ <td></td>
+ <td>
+  <input type=submit value=" 送信 ">
+  <input type=reset value=" 取消 ">
+ </td>
+</tr>
+</table>
+</form>
+<hr>
+<raw>{{$.Result}}</raw>
+<hr>
+</body></html>

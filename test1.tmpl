@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>Go表示ページ</title>
+</head>
+<body>
+    <h1>Parsons</h1>
+    <table border="1" bordercolor=#9999FF cellspacing="0">
+        <tr bgcolor=#CCCCFF>
+            <th width="200">ID</th>
+            <th width="200">NAME</th>
+            <th width="200">BIRTHDAY</th>
+        </tr>
+        {{range $i, $v := $.List}}
+            {{if $v.Name}}
+                <tr>
+                    <td>{{$v.Id}}</td>
+                    <td>{{$v.Name}}</td>
+                    <td>{{$v.Birthday}}</td>
+                </tr>
+            {{end}}
+        {{end}}
+    </table>
+</body>
+</html>

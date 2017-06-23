@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Go表示ページ</title>
+</head>
+<body>
+    <h1>DEVICES</h1>
+    <table border="1" bordercolor=#9999FF cellspacing="0">
+        <tr bgcolor=#CCCCFF>
+            <th width="100">ID</th>
+            <th width="100">OS</th>
+            <th width="100">VERSION</th>
+            <th width="100">BOARD</th>
+            <th width="100">TIME</th>
+        </tr>
+<!-- 
+        {{range $i, $v := $.Map}}
+            {{if $v}}
+                <tr>
+                    <td>{{$v}}</td>
+                    <td>{{$v.os}}</td>
+                    <td>{{$v.osversion}}</td>
+                    <td>{{$v.board}}</td>
+                    <td>{{$v.times}}</td>
+                </tr>
+            {{end}}
+        {{end}}
+-->
+        {{ range $key, $value := . }}
+            <li><strong>{{ $key }}</strong>: {{ $value }}</li>
+        {{ end }}
+    </table>
+</body>
+</html>

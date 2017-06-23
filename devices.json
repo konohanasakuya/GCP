@@ -1,0 +1,20 @@
+{
+  "from console" : {
+    "info" : {
+      "board" : "NXP i.MX7",
+      "os" : "Android Things",
+      "osversion" : "preview 4"
+    },
+    "time" : "1000",
+    "times" : "2017-06-07 08:09:10"
+  },
+  "from server" : {
+    "info" : {
+      "board" : "NXP i.MX7",
+      "os" : "Android Things",
+      "osversion" : "preview 4"
+    },
+    "time" : "1496824347",
+    "times" : "2017-06-07 17:32:27"
+  }
+}
