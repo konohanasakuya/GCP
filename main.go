@@ -56,6 +56,22 @@ type Person struct {
 	Birthday string `json:"birthday"`
 }
 
+type Logs struct {
+	Path   string `json:"path"`
+	DlPath string `json:"dlpath"`
+}
+
+type DeviceData struct {
+	Info struct {
+		Os        string `json:"os"`
+		OsVersion string `json:"osversion"`
+		Board     string `json:"board"`
+	} `json:"info"`
+	Time  string `json:"time,omitempty"`
+	Times string `json:"times,omitempty"`
+	Logs  []Logs `json:"logs,omitempty"`
+}
+
 var msgNotFound = fmt.Sprintf(`<html><body><font size="5" color="#ff0000">Not Found : %d</font></body></html>`, http.StatusNotFound)
 
 func getFirebaseDataStorage_local(w http.ResponseWriter, r *http.Request) {
@@ -374,22 +390,6 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	beforePath = path
 }
 
-type Logs struct {
-	Name string `json:"name"`
-	Path string `json:"path"`
-}
-
-type DeviceData struct {
-	Info struct {
-		Os        string `json:"os"`
-		OsVersion string `json:"osversion"`
-		Board     string `json:"board"`
-	} `json:"info"`
-	Time  string `json:"time,omitempty"`
-	Times string `json:"times,omitempty"`
-	Logs  []Logs `json:"logs,omitempty"`
-}
-
 func writeDataMap(w http.ResponseWriter, r *http.Request, path string, dataMap *map[string]DeviceData) error {
 	if localPc {
 		if len(*dataMap) == 0 {
@@ -499,6 +499,34 @@ func deviceShow(w http.ResponseWriter, r *http.Request) {
 
 // >>>>========================================================>>>>
 
+func urlencode(s string) (result string) {
+	for _, c := range s {
+		if c <= 0x7f { // single byte
+			result += fmt.Sprintf("%%%X", c)
+		} else if c > 0x1fffff { // quaternary byte
+			result += fmt.Sprintf("%%%X%%%X%%%X%%%X",
+				0xf0+((c&0x1c0000)>>18),
+				0x80+((c&0x3f000)>>12),
+				0x80+((c&0xfc0)>>6),
+				0x80+(c&0x3f),
+			)
+		} else if c > 0x7ff { // triple byte
+			result += fmt.Sprintf("%%%X%%%X%%%X",
+				0xe0+((c&0xf000)>>12),
+				0x80+((c&0xfc0)>>6),
+				0x80+(c&0x3f),
+			)
+		} else { // double byte
+			result += fmt.Sprintf("%%%X%%%X",
+				0xc0+((c&0x7c0)>>6),
+				0x80+(c&0x3f),
+			)
+		}
+	}
+
+	return result
+}
+
 // 「/save」用のハンドラ
 func saveHandler(w http.ResponseWriter, r *http.Request) {
 	token := ""
@@ -556,10 +584,13 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 		for i := 0; i < filenum; i++ {
 			filename = filenames[i]
 			times := time.Now().UTC().In(time.FixedZone("Asia/Tokyo", 9*60*60)).Format("2006-01-02 15:04:05")
-			path := "devices/" + token + "/" + mode + "/" + times + "/" + filename
-			fmt.Printf("file name:%s\nsave path:\n", filename, path)
-			result = putStorage(path, &buffers[i], r)
+			logPath := mode + "/" + times + "/" + filename
+			storagePath := "devices/" + token + "/logs/" + logPath
+			fmt.Printf("file name:%s\nsave path:\n", filename, storagePath)
+			result = putStorage(storagePath, &buffers[i], r)
 			fmt.Println("result:", result)
+			dlUrl := "https://storage.googleapis.com/testproject2-168808.appspot.com/devices/" + urlencode(token) + "/logs/" + urlencode(mode) + "/" + urlencode(times) + "/" + urlencode(filename)
+			sendLogPath(token, dlUrl, logPath, w, r)
 		}
 
 	} else if mode == "command1" {
@@ -604,6 +635,25 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Fprintln(w, "@TEST@ ", ResultMessage)
 		// http.Redirect(w, r, "/command1", 303)
+	}
+}
+
+func sendLogPath(token string, dlUrl string, logPath string, w http.ResponseWriter, r *http.Request) {
+	dbPath := "https://testproject2-168808.firebaseio.com/devices.json"
+
+	dataMap, err := readDataMap(w, r, deviceFile)
+	if err != nil || dataMap == nil {
+		return
+	}
+	deviceData, ok := dataMap[token]
+	if !ok {
+		return
+	}
+	logData := Logs{logPath, dlUrl}
+	deviceData.Logs = append(deviceData.Logs, logData)
+	dataMap[token] = deviceData
+	if err := writeDataMap(w, r, dbPath, &dataMap); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
