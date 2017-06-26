@@ -774,11 +774,23 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "POST" {
 		// ResultMessage = ""
+		number := r.FormValue("number")
 		token := r.FormValue("token")
 		command := r.FormValue("command")
 
-		// resp, err := sendCommand(w, r, []string{token}, mode)
-		_, err := sendCommand(w, r, []string{token}, command, false)
+		var tokens []string
+		if number == "all" {
+			DataMap, _ := readDataMap(w, r, deviceFile)
+			for key, _ := range DataMap {
+				tokens = append(tokens, key)
+			}
+		} else {
+			if token == "" {
+				return
+			}
+			tokens = append(tokens, token)
+		}
+		_, err := sendCommand(w, r, tokens, command, false)
 		if err != nil {
 			fmt.Println(err.Error())
 		}

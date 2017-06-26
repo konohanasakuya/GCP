@@ -1,32 +1,52 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>コマンド実行要求</title>
+    <meta charset="UTF-8">
+    <title>コマンド実行要求</title>
 </head>
 <body>
-<h1>コマンド実行要求</h1>
-<hr>
-<form method="POST">
-<table>
-<tr>
- <td>送信先トークン</td>
- <td><input type=text required name="token"></td>
-</tr>
-<tr>
- <td>　要求コマンド</td>
- <td><input type=text required name="command"></td>
-</tr>
-<tr>
- <td></td>
- <td>
-  <input type=submit value=" 送信 ">
-  <input type=reset value=" 取消 ">
- </td>
-</tr>
-</table>
-</form>
-<hr>
-<pre>{{$.Result}}</pre>
-<hr>
-</body></html>
+    <h1>コマンド実行要求</h1>
+    <hr>
+    <form name="Form1" method="post" action="#">
+        <table>
+            <tr>
+                <td>　　　送信対象</td>
+                <td>
+                    <input type="radio" name="number" value="all" id="radio-0" checked onClick="changeDisabled()"><label for="radio-0">全端末</label>
+                    <input type="radio" name="number" value="manual" id="radio-1" checked onClick="changeDisabled()"><label for="radio-1">指定</label>
+                </td>
+            </tr>
+            <tr>
+                <td>送信先トークン</td>
+                <td><input type=text name="token"></td>
+            </tr>
+            <tr>
+                <td>　要求コマンド</td>
+                <td><input type=text required name="command"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type=submit value=" 送信 ">
+                    <input type=reset value=" 取消 ">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <hr>
+        <pre>{{$.Result}}</pre>
+    <hr>
+</body>
+<script type="text/javascript">
+<!--
+function changeDisabled() {
+    if ( document.Form1["number"][1].checked ) {
+        document . Form1["token"] . disabled = false;
+    } else {
+        document . Form1["token"] . disabled = true;
+    }
+}
+window.onload = changeDisabled;
+// -->
+</script>
+</html>
