@@ -689,6 +689,13 @@ func putStorage(path string, buff *bytes.Buffer, r *http.Request) string {
 	// Writer取得
 	writer := client.Bucket(bucketname).Object(path).NewWriter(ctx)
 	writer.ContentType = "application/zip"
+	writer.ObjectAttrs.CacheControl = "no-cache"
+	writer.ObjectAttrs.ACL = []storage.ACLRule{
+		storage.ACLRule{
+			Entity: storage.AllUsers,
+			Role:   storage.RoleReader,
+		},
+	}
 	defer writer.Close()
 
 	// コンテンツを書き込む
