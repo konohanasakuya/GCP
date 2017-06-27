@@ -853,7 +853,7 @@ func sendCommand(w http.ResponseWriter, r *http.Request, tokens []string, comman
 		for _, id := range ids {
 			jsonStr = jsonStr + `,"` + id + `"`
 		}
-		jsonStr = `],"data":{"mode":"command","action":"` + command + `"}}`
+		jsonStr = jsonStr + `],"data":{"mode":"command","action":"` + command + `"}}`
 	}
 	fmt.Printf("\n[[ jsonStr ]]\n%s\n", jsonStr)
 
